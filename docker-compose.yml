@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:17
+    container_name: learn-postgres
+    environment:
+      POSTGRES_USER: learn
+      POSTGRES_PASSWORD: learn
+      POSTGRES_DB: learn
+    ports:
+      - "5450:5432"
+    volumes:
+      - learn-data:/var/lib/postgresql/data
+
+volumes:
+  learn-data:
