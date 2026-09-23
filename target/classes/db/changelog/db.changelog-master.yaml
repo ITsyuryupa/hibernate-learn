@@ -138,3 +138,37 @@ databaseChangeLog:
         - sql:
             sql: ALTER SEQUENCE employee_id_seq INCREMENT BY 1;
 
+
+  - changeSet:
+      id: "12"
+      author: me
+      labels: ddl
+      comment: "Create flight_repository schema with airport, aircraft, seat, flight, ticket"
+      changes:
+        - sqlFile:
+            path: migrations/V12_26.sql
+            relativeToChangelogFile: true
+            encoding: UTF-8
+      rollback:
+        - sql:
+            sql: DROP SCHEMA IF EXISTS flight_repository CASCADE;
+
+  - changeSet:
+      id: "13"
+      author: learn
+      labels: data
+      comment: "Insert test data into flight_repository tables"
+      changes:
+        - sqlFile:
+            path: migrations/V13__insert_flight_data.sql
+            relativeToChangelogFile: true
+            encoding: UTF-8
+      rollback:
+        - sql:
+            sql: |
+              DELETE FROM flight_repository.ticket;
+              DELETE FROM flight_repository.flight;
+              DELETE FROM flight_repository.seat;
+              DELETE FROM flight_repository.aircraft;
+              DELETE FROM flight_repository.airport;
+
