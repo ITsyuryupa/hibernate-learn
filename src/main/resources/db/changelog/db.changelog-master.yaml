@@ -97,3 +97,15 @@ databaseChangeLog:
         - sql: |
             DELETE FROM learn.books_info WHERE label = 'War';
             DELETE FROM learn.author WHERE first_name IN ('ivan', 'nail');
+  - changeSet:
+      id: "9"
+      author: learn
+      labels: data
+      comment: "Insert additional employees for batch demo"
+      changes:
+        - sqlFile:
+            path: migrations/V9__insert_more_employees.sql
+            relativeToChangelogFile: true
+            encoding: UTF-8
+      rollback:
+        - sql: DELETE FROM employee WHERE id >= 15;
