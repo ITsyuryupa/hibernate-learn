@@ -109,3 +109,32 @@ databaseChangeLog:
             encoding: UTF-8
       rollback:
         - sql: DELETE FROM employee WHERE id >= 15;
+
+  - changeSet:
+      id: "10"
+      author: learn
+      labels: ddl
+      comment: "Create sequence employee_id_seq with increment 50"
+      changes:
+        - sqlFile:
+            path: migrations/V10__create_company_id_seq.sql
+            relativeToChangelogFile: true
+            encoding: UTF-8
+      rollback:
+        - sql:
+            sql: DROP SEQUENCE IF EXISTS employee_id_seq;
+
+  - changeSet:
+      id: "11"
+      author: learn
+      labels: ddl
+      comment: "Fix employee_id_seq INCREMENT BY to match allocationSize=50"
+      changes:
+        - sqlFile:
+            path: migrations/V11__alter_employee_id_seq_increment.sql
+            relativeToChangelogFile: true
+            encoding: UTF-8
+      rollback:
+        - sql:
+            sql: ALTER SEQUENCE employee_id_seq INCREMENT BY 1;
+
