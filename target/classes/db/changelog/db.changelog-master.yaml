@@ -1,0 +1,99 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: "1"
+      author: learn
+      labels: ddl
+      comment: "Создание таблицы department (отделы)"
+      changes:
+        - sqlFile:
+            path: migrations/V1__create_department.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: "DROP TABLE IF EXISTS department CASCADE;"
+
+  - changeSet:
+      id: "2"
+      author: learn
+      labels: ddl
+      comment: "Создание таблицы employee с FK на department"
+      changes:
+        - sqlFile:
+            path: migrations/V2__create_employee.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: "DROP TABLE IF EXISTS employee;"
+
+  - changeSet:
+      id: "3"
+      author: learn
+      labels: data
+      comment: "Начальные данные — 5 отделов"
+      changes:
+        - sqlFile:
+            path: migrations/V3__insert_departments.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: "DELETE FROM department WHERE name IN ('IT','HR','Finance','Marketing','R&D');"
+
+  - changeSet:
+      id: "4"
+      author: learn
+      labels: data
+      comment: "Начальные данные — 7 сотрудников"
+      changes:
+        - sqlFile:
+            path: migrations/V4__insert_employees.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: "DELETE FROM employee;"
+
+  - changeSet:
+      id: "5"
+      author: learn
+      labels: ddl
+      comment: "Создание схемы learn"
+      changes:
+        - sqlFile:
+            path: migrations/V5__create_learn_schema.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: "DROP SCHEMA IF EXISTS learn CASCADE;"
+
+  - changeSet:
+      id: "6"
+      author: learn
+      labels: ddl
+      comment: "Создание таблицы learn.author (авторы книг)"
+      changes:
+        - sqlFile:
+            path: migrations/V6__create_author.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: "DROP TABLE IF EXISTS learn.author CASCADE;"
+
+  - changeSet:
+      id: "7"
+      author: learn
+      labels: ddl
+      comment: "Создание таблицы learn.books_info с FK на learn.author"
+      changes:
+        - sqlFile:
+            path: migrations/V7__create_books_info.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: "DROP TABLE IF EXISTS learn.books_info;"
+
+  - changeSet:
+      id: "8"
+      author: learn
+      labels: data
+      comment: "Начальные данные — авторы и книги"
+      changes:
+        - sqlFile:
+            path: migrations/V8__insert_authors_and_books.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql: |
+            DELETE FROM learn.books_info WHERE label = 'War';
+            DELETE FROM learn.author WHERE first_name IN ('ivan', 'nail');
